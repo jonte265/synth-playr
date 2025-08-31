@@ -1,1 +1,82 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-text: hsl(2, 93%, 95%);
+  --color-background: hsl(0, 0%, 5%);
+  --color-primary: hsl(3, 94%, 73%);
+  --color-secondary: hsl(84, 94%, 35%);
+  --color-accent: hsl(110, 94%, 53%);
+
+  --color-text-50: hsl(2, 92%, 95%);
+  --color-text-100: hsl(1, 92%, 90%);
+  --color-text-200: hsl(2, 92%, 80%);
+  --color-text-300: hsl(2, 93%, 70%);
+  --color-text-400: hsl(2, 93%, 60%);
+  --color-text-500: hsl(2, 93%, 50%);
+  --color-text-600: hsl(2, 93%, 40%);
+  --color-text-700: hsl(2, 93%, 30%);
+  --color-text-800: hsl(2, 92%, 20%);
+  --color-text-900: hsl(1, 92%, 10%);
+  --color-text-950: hsl(3, 92%, 5%);
+
+  --color-background-50: hsl(0, 0%, 95%);
+  --color-background-100: hsl(0, 0%, 90%);
+  --color-background-200: hsl(0, 0%, 80%);
+  --color-background-300: hsl(0, 0%, 70%);
+  --color-background-400: hsl(0, 0%, 60%);
+  --color-background-500: hsl(0, 0%, 50%);
+  --color-background-600: hsl(0, 0%, 40%);
+  --color-background-700: hsl(0, 0%, 30%);
+  --color-background-800: hsl(0, 0%, 20%);
+  --color-background-900: hsl(0, 0%, 10%);
+  --color-background-950: hsl(0, 0%, 5%);
+
+  --color-primary-50: hsl(2, 92%, 95%);
+  --color-primary-100: hsl(3, 92%, 90%);
+  --color-primary-200: hsl(3, 94%, 80%);
+  --color-primary-300: hsl(3, 93%, 70%);
+  --color-primary-400: hsl(3, 94%, 60%);
+  --color-primary-500: hsl(3, 94%, 50%);
+  --color-primary-600: hsl(3, 94%, 40%);
+  --color-primary-700: hsl(3, 93%, 30%);
+  --color-primary-800: hsl(3, 94%, 20%);
+  --color-primary-900: hsl(3, 92%, 10%);
+  --color-primary-950: hsl(3, 92%, 5%);
+
+  --color-secondary-50: hsl(83, 92%, 95%);
+  --color-secondary-100: hsl(84, 92%, 90%);
+  --color-secondary-200: hsl(84, 94%, 80%);
+  --color-secondary-300: hsl(84, 93%, 70%);
+  --color-secondary-400: hsl(84, 94%, 60%);
+  --color-secondary-500: hsl(84, 94%, 50%);
+  --color-secondary-600: hsl(84, 94%, 40%);
+  --color-secondary-700: hsl(84, 93%, 30%);
+  --color-secondary-800: hsl(84, 94%, 20%);
+  --color-secondary-900: hsl(84, 92%, 10%);
+  --color-secondary-950: hsl(85, 92%, 5%);
+
+  --color-accent-50: hsl(110, 92%, 95%);
+  --color-accent-100: hsl(110, 92%, 90%);
+  --color-accent-200: hsl(110, 94%, 80%);
+  --color-accent-300: hsl(110, 93%, 70%);
+  --color-accent-400: hsl(110, 94%, 60%);
+  --color-accent-500: hsl(110, 94%, 50%);
+  --color-accent-600: hsl(110, 94%, 40%);
+  --color-accent-700: hsl(110, 93%, 30%);
+  --color-accent-800: hsl(110, 94%, 20%);
+  --color-accent-900: hsl(110, 92%, 10%);
+  --color-accent-950: hsl(110, 92%, 5%);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+button {
+  cursor: pointer;
+}
+
+html {
+  font-size: 18px;
+}

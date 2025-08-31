@@ -1,7 +1,12 @@
+import Header from './components/Header';
+
 function App() {
   return (
     <>
-      <h1 className='text-4xl'>yo</h1>
+      <Header />
+      <main className='flex justify-center items-center p-4'>
+        <h1>yo</h1>
+      </main>
     </>
   );
 }
