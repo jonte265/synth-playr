@@ -1,24 +1,53 @@
+import { useRef, useState } from 'react';
 import Header from './components/Header';
 
-const audioCtx = new AudioContext();
-const oscillator = audioCtx.createOscillator();
-
-oscillator.frequency.value = 220;
-oscillator.type = 'triangle';
-
-oscillator.connect(audioCtx.destination); // Connect to speaker
-oscillator.start();
-oscillator.stop(audioCtx.currentTime + 1);
+// const oscillator = audioCtx.createOscillator();
+// oscillator.frequency.value = 220;
+// oscillator.type = 'sine';
+// const gain = audioCtx.createGain();
+// oscillator.connect(gain);
+// gain.connect(audioCtx.destination); // Connect to speaker
+// gain.gain.value = 1
+// oscillator.start();
 
 function App() {
+  // const audioCtx = new AudioContext();
+  const audioCtxRef = useRef<AudioContext>(null);
+  const oscillatorRef = useRef<OscillatorNode>(null);
+
+  function playNote() {
+    // Skapar ljudmotorn om det inte redan finns
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new AudioContext();
+    }
+
+    const oscillator = audioCtxRef.current.createOscillator();
+    oscillator.frequency.value = 220;
+
+    oscillator.connect(audioCtxRef.current.destination);
+    oscillator.start();
+
+    oscillatorRef.current = oscillator;
+  }
+
+  function stopNote() {
+    oscillatorRef.current?.stop();
+  }
+
   return (
     <>
       <Header />
       <main className='flex flex-col gap-2 justify-center items-center p-4'>
         <h1>yo</h1>
-        <button className='bg-gray-800 hover:bg-gray-900 rounded-4xl px-4 py-2'>
-          Play tone
-        </button>
+        <div>
+          <button
+            onMouseDown={playNote}
+            onMouseUp={stopNote}
+            className='bg-gray-800 hover:bg-gray-900 rounded-4xl px-4 py-2'
+          >
+            Note C
+          </button>
+        </div>
       </main>
     </>
   );
