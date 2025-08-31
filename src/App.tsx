@@ -40,7 +40,6 @@ function App() {
     <>
       <Header />
       <main className='flex flex-col gap-2 justify-center items-center p-4'>
-        <h1>yo</h1>
         <div>
           <button
             onMouseDown={() => playNote(440)}
@@ -62,56 +61,57 @@ function App() {
           <button
             onMouseDown={() => playNote(261.63)} // C4
             onMouseUp={stopNote}
-            className='bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
+            className=' flex justify-center items-end pb-4 bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
           >
             C
           </button>
           <button
             onMouseDown={() => playNote(293.66)} // D4
             onMouseUp={stopNote}
-            className='bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
+            className='flex justify-center items-end pb-4
+ bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
           >
             D
           </button>
           <button
             onMouseDown={() => playNote(329.63)} // E4
             onMouseUp={stopNote}
-            className='bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
+            className='flex justify-center items-end pb-4 bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
           >
             E
           </button>
           <button
             onMouseDown={() => playNote(349.23)} // F4
             onMouseUp={stopNote}
-            className='bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
+            className='flex justify-center items-end pb-4 bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
           >
             F
           </button>
           <button
             onMouseDown={() => playNote(392.0)} // G4
             onMouseUp={stopNote}
-            className='bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
+            className='flex justify-center items-end pb-4 bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
           >
             G
           </button>
           <button
             onMouseDown={() => playNote(440.0)} // A4
             onMouseUp={stopNote}
-            className='bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
+            className='flex justify-center items-end pb-4 bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
           >
             A
           </button>
           <button
             onMouseDown={() => playNote(493.88)} // B4
             onMouseUp={stopNote}
-            className='bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
+            className='flex justify-center items-end pb-4 bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
           >
             B
           </button>
           <button
             onMouseDown={() => playNote(523.25)} // C5
             onMouseUp={stopNote}
-            className='bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
+            className=' bg-gray-300 hover:bg-gray-400 active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
           >
             C
           </button>
