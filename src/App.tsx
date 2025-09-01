@@ -45,6 +45,9 @@ function App() {
   const [selWaveform, setSelWaveform] = useState<OscillatorType>('sine');
   const selWaveformRef = useRef<OscillatorType>('sine');
 
+  const [selVolume, setSelVolume] = useState(0.3);
+  const selVolumeRef = useRef(0.3);
+
   function playNote(freq: number) {
     // Skapar ljudmotorn om det inte redan finns
     if (!audioCtxRef.current) {
@@ -58,7 +61,7 @@ function App() {
     oscillator.type = selWaveformRef.current;
 
     const gain = audioCtxRef.current.createGain();
-    gain.gain.value = 0.1;
+    gain.gain.value = selVolumeRef.current;
     // gain.gain.exponentialRampToValueAtTime(
     //   0.000001,
     //   audioCtxRef.current.currentTime + 1
@@ -93,6 +96,15 @@ function App() {
 
     setSelWaveform(sel);
     selWaveformRef.current = sel;
+  }
+
+  function handleVolume(vol: any) {
+    console.log(vol);
+
+    const newVol = Number(vol);
+
+    setSelVolume(newVol);
+    selVolumeRef.current = newVol;
   }
 
   useEffect(() => {
@@ -212,7 +224,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className='flex flex-col gap-2 justify-center items-center p-4'>
+      <main className='flex flex-col gap-8 justify-center items-center p-4'>
         <div className='flex flex-row gap-2'>
           <SmallBtn
             text='Sawtooth'
@@ -237,6 +249,19 @@ function App() {
             icon={<PiWaveTriangleDuotone />}
             selected={selWaveform === 'triangle' ? true : false}
             onClick={() => handleWaveformSelect('triangle')}
+          />
+        </div>
+        <div className='flex flex-col justify-center items-center gap-2'>
+          <label htmlFor='volume'>Volume {Math.round(selVolume * 10)}</label>
+          <input
+            type='range'
+            name='volume'
+            id='volume'
+            min='0'
+            max='1'
+            step='0.01'
+            value={selVolume}
+            onChange={(e) => handleVolume(e.target.value)}
           />
         </div>
         <div className='relative flex'>
