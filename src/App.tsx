@@ -43,6 +43,7 @@ function App() {
 
     const oscillator = audioCtxRef.current.createOscillator();
     oscillator.frequency.value = freq;
+    oscillator.type = 'sawtooth';
 
     const gain = audioCtxRef.current.createGain();
     gain.gain.value = 0.1;
@@ -221,6 +222,7 @@ function App() {
             </button>
           ))}
         </div>
+        <p>How to play:</p>
       </main>
     </>
   );
