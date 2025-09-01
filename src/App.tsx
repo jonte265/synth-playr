@@ -1,6 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Header from './components/Header';
+import {
+  PiWaveSawtoothDuotone,
+  PiWaveSquareDuotone,
+  PiWaveSineDuotone,
+  PiWaveTriangleDuotone,
+} from 'react-icons/pi';
+import SmallBtn from './components/SmallBtn';
 
+// const audioCtx = new AudioContext();
 // const oscillator = audioCtx.createOscillator();
 // oscillator.frequency.value = 220;
 // oscillator.type = 'sine';
@@ -30,10 +38,12 @@ function App() {
     { note: 'A#', freq: 466.16, left: 295 },
   ];
 
-  // const audioCtx = new AudioContext();
   const audioCtxRef = useRef<AudioContext>(null);
   // const oscillatorRef = useRef<OscillatorNode>(null);
   const oscillatorRef = useRef<{ id: number; osc: OscillatorNode }[]>([]);
+
+  const [selWaveform, setSelWaveform] = useState<OscillatorType>('sine');
+  const selWaveformRef = useRef<OscillatorType>('sine');
 
   function playNote(freq: number) {
     // Skapar ljudmotorn om det inte redan finns
@@ -43,7 +53,9 @@ function App() {
 
     const oscillator = audioCtxRef.current.createOscillator();
     oscillator.frequency.value = freq;
-    oscillator.type = 'sawtooth';
+    console.log('ye', selWaveform);
+
+    oscillator.type = selWaveformRef.current;
 
     const gain = audioCtxRef.current.createGain();
     gain.gain.value = 0.1;
@@ -74,6 +86,13 @@ function App() {
       oscillatorRef.current[index].osc.disconnect();
       oscillatorRef.current.splice(index, 1);
     }
+  }
+
+  function handleWaveformSelect(sel: any) {
+    console.log(sel);
+
+    setSelWaveform(sel);
+    selWaveformRef.current = sel;
   }
 
   useEffect(() => {
@@ -194,6 +213,32 @@ function App() {
     <>
       <Header />
       <main className='flex flex-col gap-2 justify-center items-center p-4'>
+        <div className='flex flex-row gap-2'>
+          <SmallBtn
+            text='Sawtooth'
+            icon={<PiWaveSawtoothDuotone />}
+            selected={selWaveform === 'sawtooth' ? true : false}
+            onClick={() => handleWaveformSelect('sawtooth')}
+          />
+          <SmallBtn
+            text='Sine'
+            icon={<PiWaveSineDuotone />}
+            selected={selWaveform === 'sine' ? true : false}
+            onClick={() => handleWaveformSelect('sine')}
+          />
+          <SmallBtn
+            text='Square'
+            icon={<PiWaveSquareDuotone />}
+            selected={selWaveform === 'square' ? true : false}
+            onClick={() => handleWaveformSelect('square')}
+          />
+          <SmallBtn
+            text='Triangle'
+            icon={<PiWaveTriangleDuotone />}
+            selected={selWaveform === 'triangle' ? true : false}
+            onClick={() => handleWaveformSelect('triangle')}
+          />
+        </div>
         <div className='relative flex'>
           {whiteKeys.map((key, index) => (
             <button
