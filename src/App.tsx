@@ -43,7 +43,12 @@ function App() {
     const oscillator = audioCtxRef.current.createOscillator();
     oscillator.frequency.value = note;
 
-    oscillator.connect(audioCtxRef.current.destination);
+    const gain = audioCtxRef.current.createGain();
+    gain.gain.value = 0.1;
+
+    oscillator.connect(gain);
+
+    gain.connect(audioCtxRef.current.destination);
     oscillator.start();
 
     oscillatorRef.current = oscillator;
@@ -56,7 +61,7 @@ function App() {
   }
 
   useEffect(() => {
-    function handleKeydown(event) {
+    function handleKeydown(event: any) {
       if (event.repeat) {
         return;
       }
@@ -109,7 +114,7 @@ function App() {
           break;
       }
     }
-    function handleKeyup(event) {
+    function handleKeyup(event: any) {
       console.log(`Key up: ${event.key}`);
       stopNote();
     }
