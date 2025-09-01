@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Header from './components/Header';
 
 // const oscillator = audioCtx.createOscillator();
@@ -11,6 +11,25 @@ import Header from './components/Header';
 // oscillator.start();
 
 function App() {
+  const whiteKeys = [
+    { note: 'C', freq: 261.63 },
+    { note: 'D', freq: 293.66 },
+    { note: 'E', freq: 329.63 },
+    { note: 'F', freq: 349.23 },
+    { note: 'G', freq: 392.0 },
+    { note: 'A', freq: 440.0 },
+    { note: 'B', freq: 493.88 },
+    { note: 'C', freq: 523.25 },
+  ];
+
+  const blackKeys = [
+    { note: 'C#', freq: 277.18, left: 48 },
+    { note: 'D#', freq: 311.13, left: 98 },
+    { note: 'F#', freq: 369.99, left: 195 },
+    { note: 'G#', freq: 415.3, left: 245 },
+    { note: 'A#', freq: 466.16, left: 295 },
+  ];
+
   // const audioCtx = new AudioContext();
   const audioCtxRef = useRef<AudioContext>(null);
   const oscillatorRef = useRef<OscillatorNode>(null);
@@ -36,24 +55,28 @@ function App() {
     oscillatorRef.current = null;
   }
 
-  const whiteKeys = [
-    { note: 'C', freq: 261.63 },
-    { note: 'D', freq: 293.66 },
-    { note: 'E', freq: 329.63 },
-    { note: 'F', freq: 349.23 },
-    { note: 'G', freq: 392.0 },
-    { note: 'A', freq: 440.0 },
-    { note: 'B', freq: 493.88 },
-    { note: 'C', freq: 523.25 },
-  ];
+  useEffect(() => {
+    function handleKeydown(event) {
+      if (event.repeat) {
+        return;
+      }
 
-  const blackKeys = [
-    { note: 'C#', freq: 277.18, left: 48 },
-    { note: 'D#', freq: 311.13, left: 98 },
-    { note: 'F#', freq: 369.99, left: 195 },
-    { note: 'G#', freq: 415.3, left: 245 },
-    { note: 'A#', freq: 466.16, left: 295 },
-  ];
+      console.log(`Key down: ${event.key}`);
+      playNote(440);
+    }
+    function handleKeyup(event) {
+      console.log(`Key up: ${event.key}`);
+      stopNote();
+    }
+
+    window.addEventListener('keydown', handleKeydown);
+    window.addEventListener('keyup', handleKeyup);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeydown);
+      window.removeEventListener('keyup', handleKeyup);
+    };
+  }, []);
 
   return (
     <>
