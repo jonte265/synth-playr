@@ -199,6 +199,8 @@ function App() {
               key={`white-${key.note}-${index}`}
               onMouseDown={() => playNote(key.freq)}
               onMouseUp={() => stopNote(key.freq)}
+              onTouchStart={() => playNote(key.freq)}
+              onTouchEnd={() => stopNote(key.freq)}
               className='flex justify-center items-end pb-4 min-h-45 bg-gray-300 hover:bg-gray-400  active:text-gray-300  active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
             >
               {key.note}
@@ -210,6 +212,8 @@ function App() {
               key={`black-${key.note}-${index}`}
               onMouseDown={() => playNote(key.freq)}
               onMouseUp={() => stopNote(key.freq)}
+              onTouchStart={() => playNote(key.freq)}
+              onTouchEnd={() => stopNote(key.freq)}
               className='bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-md w-8 h-28 absolute top-0 z-10 text-gray-300 font-bold'
               style={{ marginLeft: '-16px', left: `${key.left}px` }}
             >
