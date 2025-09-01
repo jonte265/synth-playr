@@ -32,32 +32,47 @@ function App() {
 
   // const audioCtx = new AudioContext();
   const audioCtxRef = useRef<AudioContext>(null);
-  const oscillatorRef = useRef<OscillatorNode>(null);
+  // const oscillatorRef = useRef<OscillatorNode>(null);
+  const oscillatorRef = useRef<{ id: number; osc: OscillatorNode }[]>([]);
 
-  function playNote(note: number) {
+  function playNote(freq: number) {
     // Skapar ljudmotorn om det inte redan finns
     if (!audioCtxRef.current) {
       audioCtxRef.current = new AudioContext();
     }
 
     const oscillator = audioCtxRef.current.createOscillator();
-    oscillator.frequency.value = note;
+    oscillator.frequency.value = freq;
 
     const gain = audioCtxRef.current.createGain();
     gain.gain.value = 0.1;
+    // gain.gain.exponentialRampToValueAtTime(
+    //   0.000001,
+    //   audioCtxRef.current.currentTime + 1
+    // );
 
     oscillator.connect(gain);
+    gain.connect(audioCtxRef.current.destination); // connect to "speaker"
 
-    gain.connect(audioCtxRef.current.destination);
     oscillator.start();
 
-    oscillatorRef.current = oscillator;
+    oscillatorRef.current.push({
+      id: freq,
+      osc: oscillator,
+    });
+
+    // console.log(oscillatorRef.current);
   }
 
-  function stopNote() {
-    oscillatorRef.current?.stop();
-    oscillatorRef.current?.disconnect(); // disconnect prevent memory leaks
-    oscillatorRef.current = null;
+  function stopNote(freq: number) {
+    const index = oscillatorRef.current.findIndex((o) => o.id === freq);
+    // console.log(index);
+
+    if (index !== -1) {
+      oscillatorRef.current[index].osc.stop();
+      oscillatorRef.current[index].osc.disconnect();
+      oscillatorRef.current.splice(index, 1);
+    }
   }
 
   useEffect(() => {
@@ -116,7 +131,53 @@ function App() {
     }
     function handleKeyup(event: any) {
       console.log(`Key up: ${event.key}`);
-      stopNote();
+      switch (event.key) {
+        case 'a':
+          stopNote(261.63); // C4
+          break;
+        case 'w':
+          stopNote(277.18); // C#4
+          break;
+        case 's':
+          stopNote(293.66); // D4
+          break;
+        case 'e':
+          stopNote(311.13); // D#4
+          break;
+        case 'd':
+          stopNote(329.63); // E4
+          break;
+        case 'f':
+          stopNote(349.23); // F4
+          break;
+        case 't':
+          stopNote(369.99); // F#4
+          break;
+        case 'g':
+          stopNote(392.0); // G4
+          break;
+        case 'y':
+          stopNote(415.3); // G#4
+          break;
+        case 'h':
+          stopNote(440.0); // A4
+          break;
+        case 'u':
+          stopNote(466.16); // A#4
+          break;
+        case 'j':
+          stopNote(493.88); // B4
+          break;
+        case 'k':
+          stopNote(523.25); // C5
+          break;
+        case 'o':
+          stopNote(554.37); // C#5
+          break;
+        case 'l':
+          stopNote(587.33); // D5
+          break;
+      }
     }
 
     window.addEventListener('keydown', handleKeydown);
@@ -132,29 +193,12 @@ function App() {
     <>
       <Header />
       <main className='flex flex-col gap-2 justify-center items-center p-4'>
-        <div>
-          <button
-            onMouseDown={() => playNote(440)}
-            onMouseUp={stopNote}
-            className='bg-gray-800 hover:bg-gray-900 rounded-4xl px-4 py-2'
-          >
-            Note C
-          </button>
-          <button
-            onMouseDown={() => playNote(220)}
-            onMouseUp={stopNote}
-            className='bg-gray-800 hover:bg-gray-900 rounded-4xl px-4 py-2'
-          >
-            Note C 220
-          </button>
-        </div>
-
         <div className='relative flex'>
           {whiteKeys.map((key, index) => (
             <button
               key={`white-${key.note}-${index}`}
               onMouseDown={() => playNote(key.freq)}
-              onMouseUp={stopNote}
+              onMouseUp={() => stopNote(key.freq)}
               className='flex justify-center items-end pb-4 min-h-45 bg-gray-300 hover:bg-gray-400  active:text-gray-300  active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
             >
               {key.note}
@@ -165,7 +209,7 @@ function App() {
             <button
               key={`black-${key.note}-${index}`}
               onMouseDown={() => playNote(key.freq)}
-              onMouseUp={stopNote}
+              onMouseUp={() => stopNote(key.freq)}
               className='bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-md w-8 h-28 absolute top-0 z-10 text-gray-300 font-bold'
               style={{ marginLeft: '-16px', left: `${key.left}px` }}
             >
