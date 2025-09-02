@@ -51,8 +51,8 @@ function App() {
   const [selCutoff, setSelCutoff] = useState(2000);
   const selCutoffRef = useRef(2000);
 
-  const [selQFilter, setSelQFilter] = useState(10);
-  const selQFilterRef = useRef(10);
+  const [selQFilter, setSelQFilter] = useState(5);
+  const selQFilterRef = useRef(5);
 
   function playNote(freq: number) {
     // Skapar ljudmotorn om det inte redan finns
