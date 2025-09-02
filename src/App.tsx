@@ -257,33 +257,36 @@ function App() {
     <>
       <Header />
       <main className='flex flex-col gap-8 justify-center items-center p-4'>
-        <div className='flex flex-wrap justify-center items-center flex-row gap-2'>
-          <SmallBtn
-            text='Sawtooth'
-            icon={<PiWaveSawtoothDuotone />}
-            selected={selWaveform === 'sawtooth' ? true : false}
-            onClick={() => handleWaveformSelect('sawtooth')}
-          />
-          <SmallBtn
-            text='Sine'
-            icon={<PiWaveSineDuotone />}
-            selected={selWaveform === 'sine' ? true : false}
-            onClick={() => handleWaveformSelect('sine')}
-          />
-          <SmallBtn
-            text='Square'
-            icon={<PiWaveSquareDuotone />}
-            selected={selWaveform === 'square' ? true : false}
-            onClick={() => handleWaveformSelect('square')}
-          />
-          <SmallBtn
-            text='Triangle'
-            icon={<PiWaveTriangleDuotone />}
-            selected={selWaveform === 'triangle' ? true : false}
-            onClick={() => handleWaveformSelect('triangle')}
-          />
+        <div className='flex flex-wrap justify-center items-center flex-col gap-2'>
+          <p>Waveforms:</p>
+          <div className='flex flex-wrap justify-center items-center gap-1'>
+            <SmallBtn
+              text='Sawtooth'
+              icon={<PiWaveSawtoothDuotone />}
+              selected={selWaveform === 'sawtooth' ? true : false}
+              onClick={() => handleWaveformSelect('sawtooth')}
+            />
+            <SmallBtn
+              text='Sine'
+              icon={<PiWaveSineDuotone />}
+              selected={selWaveform === 'sine' ? true : false}
+              onClick={() => handleWaveformSelect('sine')}
+            />
+            <SmallBtn
+              text='Square'
+              icon={<PiWaveSquareDuotone />}
+              selected={selWaveform === 'square' ? true : false}
+              onClick={() => handleWaveformSelect('square')}
+            />
+            <SmallBtn
+              text='Triangle'
+              icon={<PiWaveTriangleDuotone />}
+              selected={selWaveform === 'triangle' ? true : false}
+              onClick={() => handleWaveformSelect('triangle')}
+            />
+          </div>
         </div>
-        <div className='flex gap-32'>
+        <div className='flex flex-wrap justify-center items-center gap-4'>
           <div className='flex flex-col gap-2'>
             <div className='flex flex-col justify-center items-center gap-2 w-48'>
               <label htmlFor='filter'>Filter cutoff {selCutoff} Hz</label>
