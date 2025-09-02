@@ -36,11 +36,11 @@ function App() {
 
   const masterGainRef = useRef<GainNode>(null);
 
-  const [selWaveform, setSelWaveform] = useState<OscillatorType>('sine');
-  const selWaveformRef = useRef<OscillatorType>('sine');
+  const [selWaveform, setSelWaveform] = useState<OscillatorType>('triangle');
+  const selWaveformRef = useRef<OscillatorType>('triangle');
 
-  const [selVolume, setSelVolume] = useState(0.2);
-  const selVolumeRef = useRef(0.2);
+  const [selVolume, setSelVolume] = useState(0.1);
+  const selVolumeRef = useRef(0.1);
 
   const [selCutoff, setSelCutoff] = useState(2000);
   const selCutoffRef = useRef(2000);
@@ -59,6 +59,12 @@ function App() {
 
   const [selRelease, setSelRelease] = useState(0.3);
   const selReleaseRef = useRef(0.3);
+
+  const [selDelayTime, setSelDelayTime] = useState(0.2);
+  const selDelayTimeRef = useRef(0.3);
+
+  const [selDelayFeedback, setSelDelayFeedback] = useState(0.3);
+  const selDelayFeedbackRef = useRef(0.3);
 
   function playNote(freq: number) {
     stopNote(freq);
@@ -93,12 +99,32 @@ function App() {
     gain.gain.linearRampToValueAtTime(1, now + attack); // Attack
     gain.gain.setTargetAtTime(sustain, now + attack, decay); // Decay
 
+    // Delay effect
+    const delay = audioCtxRef.current.createDelay();
+    delay.delayTime.value = selDelayTimeRef.current;
+
+    const feedback = audioCtxRef.current.createGain();
+    feedback.gain.value = selDelayFeedbackRef.current;
+
+    // Filter effect
     const filter = audioCtxRef.current.createBiquadFilter();
     filter.type = 'lowpass';
     filter.Q.value = selQFilterRef.current;
 
     filter.frequency.value = selCutoffRef.current;
 
+    // Connect all nodes
+    // Koppla oscillator -> gain -> filter
+    oscillator.connect(gain);
+    gain.connect(filter);
+
+    // Koppla filter -> delay -> master gain
+    filter.connect(delay);
+    delay.connect(masterGainRef.current);
+
+    // Skapa feedback-loop delay -> feedback gain -> delay
+    delay.connect(feedback);
+    feedback.connect(delay);
     oscillator.connect(gain);
     gain.connect(filter);
     filter.connect(masterGainRef.current); // connect to master gain
@@ -130,8 +156,6 @@ function App() {
       gain.gain.linearRampToValueAtTime(0, now + release);
 
       osc.stop(now + release);
-      // osc.disconnect();
-      // gain.disconnect();
 
       setTimeout(() => {
         osc.disconnect();
@@ -203,6 +227,23 @@ function App() {
         selReleaseRef.current = newADSR;
         break;
     }
+  }
+
+  function handleDelayTime(time: string) {
+    console.log(time);
+
+    const newTime = Number(time);
+
+    setSelDelayTime(newTime);
+    selDelayTimeRef.current = newTime;
+  }
+  function handleDelayFeedback(fb: string) {
+    console.log(fb);
+
+    const newFb = Number(fb);
+
+    setSelDelayFeedback(newFb);
+    selDelayFeedbackRef.current = newFb;
   }
 
   useEffect(() => {
@@ -435,6 +476,35 @@ function App() {
               />
             </div>
           </div>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
+            <p>Delay</p>
+            <div className='flex flex-col justify-center items-center gap-2 w-48'>
+              <label htmlFor='delayTime'>Delay Time {selDelayTime}s</label>
+              <input
+                type='range'
+                name='delayTime'
+                id='delayTime'
+                min='0'
+                max='1'
+                step={0.01}
+                value={selDelayTime}
+                onChange={(e) => handleDelayTime(e.target.value)}
+              />
+            </div>
+            <div className='flex flex-col justify-center items-center gap-2 w-48'>
+              <label htmlFor='feedback'>Feedback {selDelayFeedback}</label>
+              <input
+                type='range'
+                name='feedback'
+                id='feedback'
+                min='0'
+                max='0.9'
+                step={0.01}
+                value={selDelayFeedback}
+                onChange={(e) => handleDelayFeedback(e.target.value)}
+              />
+            </div>
+          </div>
           <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-48'>
             <label htmlFor='volume'>Volume {(selVolume * 10).toFixed(1)}</label>
             <input
@@ -442,7 +512,7 @@ function App() {
               name='volume'
               id='volume'
               min='0'
-              max='1'
+              max='0.5'
               step='0.01'
               value={selVolume}
               onChange={(e) => handleVolume(e.target.value)}
