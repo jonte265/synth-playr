@@ -48,6 +48,9 @@ function App() {
   const [selVolume, setSelVolume] = useState(0.3);
   const selVolumeRef = useRef(0.3);
 
+  const [selCutoff, setSelCutoff] = useState(0.3);
+  const selCutoffRef = useRef(0.3);
+
   function playNote(freq: number) {
     // Skapar ljudmotorn om det inte redan finns
     if (!audioCtxRef.current) {
@@ -56,7 +59,6 @@ function App() {
 
     const oscillator = audioCtxRef.current.createOscillator();
     oscillator.frequency.value = freq;
-    console.log('ye', selWaveform);
 
     oscillator.type = selWaveformRef.current;
 
@@ -67,8 +69,16 @@ function App() {
     //   audioCtxRef.current.currentTime + 1
     // );
 
+    const filter = audioCtxRef.current.createBiquadFilter();
+    filter.type = 'lowpass';
+
+    console.log('filtering', selCutoffRef.current);
+
+    filter.frequency.value = selCutoffRef.current;
+
     oscillator.connect(gain);
-    gain.connect(audioCtxRef.current.destination); // connect to "speaker"
+    gain.connect(filter);
+    filter.connect(audioCtxRef.current.destination); // connect to "speaker"
 
     oscillator.start();
 
@@ -107,13 +117,22 @@ function App() {
     selVolumeRef.current = newVol;
   }
 
+  function handleCutoff(filterCutoff: any) {
+    console.log(filterCutoff);
+
+    const newCutoff = Number(filterCutoff);
+
+    setSelCutoff(newCutoff);
+    selCutoffRef.current = newCutoff;
+  }
+
   useEffect(() => {
     function handleKeydown(event: any) {
       if (event.repeat) {
         return;
       }
 
-      switch (event.key) {
+      switch (event.key.toLowerCase()) {
         case 'a':
           playNote(261.63); // C4
           break;
@@ -163,7 +182,7 @@ function App() {
     }
     function handleKeyup(event: any) {
       console.log(`Key up: ${event.key}`);
-      switch (event.key) {
+      switch (event.key.toLowerCase()) {
         case 'a':
           stopNote(261.63); // C4
           break;
@@ -251,18 +270,32 @@ function App() {
             onClick={() => handleWaveformSelect('triangle')}
           />
         </div>
-        <div className='flex flex-col justify-center items-center gap-2'>
-          <label htmlFor='volume'>Volume {(selVolume * 10).toFixed(1)}</label>
-          <input
-            type='range'
-            name='volume'
-            id='volume'
-            min='0'
-            max='1'
-            step='0.01'
-            value={selVolume}
-            onChange={(e) => handleVolume(e.target.value)}
-          />
+        <div className='flex gap-4'>
+          <div className='flex flex-col justify-center items-center gap-2'>
+            <label htmlFor='volume'>Filter cutoff {selCutoff} Hz</label>
+            <input
+              type='range'
+              name='volume'
+              id='volume'
+              min='0'
+              max='21000'
+              value={selCutoff}
+              onChange={(e) => handleCutoff(e.target.value)}
+            />
+          </div>
+          <div className='flex flex-col justify-center items-center gap-2'>
+            <label htmlFor='volume'>Volume {(selVolume * 10).toFixed(1)}</label>
+            <input
+              type='range'
+              name='volume'
+              id='volume'
+              min='0'
+              max='1'
+              step='0.01'
+              value={selVolume}
+              onChange={(e) => handleVolume(e.target.value)}
+            />
+          </div>
         </div>
         <div className='relative flex '>
           {whiteKeys.map((key, index) => (
