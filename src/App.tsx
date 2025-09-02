@@ -252,7 +252,7 @@ function App() {
           />
         </div>
         <div className='flex flex-col justify-center items-center gap-2'>
-          <label htmlFor='volume'>Volume {Math.round(selVolume * 10)}</label>
+          <label htmlFor='volume'>Volume {(selVolume * 10).toFixed(1)}</label>
           <input
             type='range'
             name='volume'
@@ -264,7 +264,7 @@ function App() {
             onChange={(e) => handleVolume(e.target.value)}
           />
         </div>
-        <div className='relative flex'>
+        <div className='relative flex '>
           {whiteKeys.map((key, index) => (
             <button
               key={`white-${key.note}-${index}`}
