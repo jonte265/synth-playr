@@ -8,16 +8,6 @@ import {
 } from 'react-icons/pi';
 import SmallBtn from './components/SmallBtn';
 
-// const audioCtx = new AudioContext();
-// const oscillator = audioCtx.createOscillator();
-// oscillator.frequency.value = 220;
-// oscillator.type = 'sine';
-// const gain = audioCtx.createGain();
-// oscillator.connect(gain);
-// gain.connect(audioCtx.destination); // Connect to speaker
-// gain.gain.value = 1
-// oscillator.start();
-
 function App() {
   const whiteKeys = [
     { note: 'C', freq: 261.63 },
@@ -44,6 +34,8 @@ function App() {
     { id: number; osc: OscillatorNode; gain: GainNode }[]
   >([]);
 
+  const masterGainRef = useRef<GainNode>(null);
+
   const [selWaveform, setSelWaveform] = useState<OscillatorType>('sine');
   const selWaveformRef = useRef<OscillatorType>('sine');
 
@@ -69,9 +61,16 @@ function App() {
   const selReleaseRef = useRef(0.5);
 
   function playNote(freq: number) {
+    stopNote(freq);
     // Skapar ljudmotorn om det inte redan finns
     if (!audioCtxRef.current) {
       audioCtxRef.current = new AudioContext();
+    }
+    // Create master gain node
+    if (!masterGainRef.current) {
+      masterGainRef.current = audioCtxRef.current.createGain();
+      masterGainRef.current.gain.value = selVolumeRef.current;
+      masterGainRef.current.connect(audioCtxRef.current.destination); // Master gain connect to "speaker"
     }
 
     const oscillator = audioCtxRef.current.createOscillator();
@@ -80,7 +79,6 @@ function App() {
     oscillator.type = selWaveformRef.current;
 
     const gain = audioCtxRef.current.createGain();
-    gain.gain.value = selVolumeRef.current;
 
     // ADSR in seconds
     const now = audioCtxRef.current.currentTime;
@@ -100,7 +98,7 @@ function App() {
 
     oscillator.connect(gain);
     gain.connect(filter);
-    filter.connect(audioCtxRef.current.destination); // connect to "speaker"
+    filter.connect(masterGainRef.current); // connect to master gain
 
     oscillator.start();
 
@@ -144,16 +142,20 @@ function App() {
     selWaveformRef.current = sel;
   }
 
-  function handleVolume(vol: any) {
+  function handleVolume(vol: string) {
     console.log(vol);
 
     const newVol = Number(vol);
+
+    if (masterGainRef.current) {
+      masterGainRef.current.gain.value = newVol;
+    }
 
     setSelVolume(newVol);
     selVolumeRef.current = newVol;
   }
 
-  function handleCutoff(filterCutoff: any) {
+  function handleCutoff(filterCutoff: string) {
     console.log(filterCutoff);
 
     const newCutoff = Number(filterCutoff);
@@ -162,7 +164,7 @@ function App() {
     selCutoffRef.current = newCutoff;
   }
 
-  function handleQFilter(filterQ: any) {
+  function handleQFilter(filterQ: string) {
     console.log(filterQ);
 
     const newQFilter = Number(filterQ);
@@ -353,7 +355,7 @@ function App() {
                 name='attack'
                 id='attack'
                 min='0'
-                max='10'
+                max='5'
                 step={0.1}
                 value={selAttack}
                 onChange={(e) => handleADSR(e.target.value, 'attack')}
@@ -366,7 +368,7 @@ function App() {
                 name='decay'
                 id='decay'
                 min='0'
-                max='10'
+                max='5'
                 step={0.1}
                 value={selDecay}
                 onChange={(e) => handleADSR(e.target.value, 'decay')}
@@ -379,7 +381,7 @@ function App() {
                 name='sustain'
                 id='sustain'
                 min='0'
-                max='10'
+                max='1'
                 step={0.1}
                 value={selSustain}
                 onChange={(e) => handleADSR(e.target.value, 'sustain')}
@@ -392,7 +394,7 @@ function App() {
                 name='release'
                 id='release'
                 min='0'
-                max='10'
+                max='5'
                 step={0.1}
                 value={selRelease}
                 onChange={(e) => handleADSR(e.target.value, 'release')}
