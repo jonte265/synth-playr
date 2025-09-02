@@ -45,23 +45,24 @@ function App() {
   const [selCutoff, setSelCutoff] = useState(2000);
   const selCutoffRef = useRef(2000);
 
-  const [selQFilter, setSelQFilter] = useState(5);
-  const selQFilterRef = useRef(5);
+  const [selQFilter, setSelQFilter] = useState(1);
+  const selQFilterRef = useRef(1);
 
-  const [selAttack, setSelAttack] = useState(0.5);
-  const selAttackRef = useRef(0.5);
+  const [selAttack, setSelAttack] = useState(0.05);
+  const selAttackRef = useRef(0.05);
 
-  const [selDecay, setSelDecay] = useState(0.5);
-  const selDecayRef = useRef(0.5);
+  const [selDecay, setSelDecay] = useState(0.2);
+  const selDecayRef = useRef(0.2);
 
-  const [selSustain, setSelSustain] = useState(0.5);
-  const selSustainRef = useRef(0.5);
+  const [selSustain, setSelSustain] = useState(0.7);
+  const selSustainRef = useRef(0.7);
 
-  const [selRelease, setSelRelease] = useState(0.5);
-  const selReleaseRef = useRef(0.5);
+  const [selRelease, setSelRelease] = useState(0.3);
+  const selReleaseRef = useRef(0.3);
 
   function playNote(freq: number) {
     stopNote(freq);
+
     // Skapar ljudmotorn om det inte redan finns
     if (!audioCtxRef.current) {
       audioCtxRef.current = new AudioContext();
@@ -85,6 +86,8 @@ function App() {
     const attack = selAttackRef.current;
     const decay = selDecayRef.current;
     const sustain = selSustainRef.current;
+
+    gain.gain.cancelScheduledValues(now);
 
     gain.gain.setValueAtTime(0, now); // Start silent
     gain.gain.linearRampToValueAtTime(1, now + attack); // Attack
@@ -127,10 +130,14 @@ function App() {
       gain.gain.linearRampToValueAtTime(0, now + release);
 
       osc.stop(now + release);
+      // osc.disconnect();
+      // gain.disconnect();
+
       setTimeout(() => {
         osc.disconnect();
         gain.disconnect();
       }, release * 1000);
+
       oscillatorRef.current.splice(index, 1);
     }
   }
@@ -355,8 +362,8 @@ function App() {
                 name='attack'
                 id='attack'
                 min='0'
-                max='5'
-                step={0.1}
+                max='2'
+                step={0.01}
                 value={selAttack}
                 onChange={(e) => handleADSR(e.target.value, 'attack')}
               />
@@ -368,8 +375,8 @@ function App() {
                 name='decay'
                 id='decay'
                 min='0'
-                max='5'
-                step={0.1}
+                max='2'
+                step={0.01}
                 value={selDecay}
                 onChange={(e) => handleADSR(e.target.value, 'decay')}
               />
@@ -382,7 +389,7 @@ function App() {
                 id='sustain'
                 min='0'
                 max='1'
-                step={0.1}
+                step={0.01}
                 value={selSustain}
                 onChange={(e) => handleADSR(e.target.value, 'sustain')}
               />
@@ -394,8 +401,8 @@ function App() {
                 name='release'
                 id='release'
                 min='0'
-                max='5'
-                step={0.1}
+                max='2'
+                step={0.01}
                 value={selRelease}
                 onChange={(e) => handleADSR(e.target.value, 'release')}
               />
