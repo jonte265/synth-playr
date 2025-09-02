@@ -40,7 +40,9 @@ function App() {
 
   const audioCtxRef = useRef<AudioContext>(null);
   // const oscillatorRef = useRef<OscillatorNode>(null);
-  const oscillatorRef = useRef<{ id: number; osc: OscillatorNode }[]>([]);
+  const oscillatorRef = useRef<
+    { id: number; osc: OscillatorNode; gain: GainNode }[]
+  >([]);
 
   const [selWaveform, setSelWaveform] = useState<OscillatorType>('sine');
   const selWaveformRef = useRef<OscillatorType>('sine');
@@ -53,6 +55,18 @@ function App() {
 
   const [selQFilter, setSelQFilter] = useState(5);
   const selQFilterRef = useRef(5);
+
+  const [selAttack, setSelAttack] = useState(0.5);
+  const selAttackRef = useRef(0.5);
+
+  const [selDecay, setSelDecay] = useState(0.5);
+  const selDecayRef = useRef(0.5);
+
+  const [selSustain, setSelSustain] = useState(0.5);
+  const selSustainRef = useRef(0.5);
+
+  const [selRelease, setSelRelease] = useState(0.5);
+  const selReleaseRef = useRef(0.5);
 
   function playNote(freq: number) {
     // Skapar ljudmotorn om det inte redan finns
@@ -70,19 +84,15 @@ function App() {
 
     // ADSR in seconds
     const now = audioCtxRef.current.currentTime;
-    const attack = 0.3;
-    const decay = 0.8;
+    const attack = selAttackRef.current;
+    const decay = 0.5;
     const sustain = 0.1; // level not time seconds
-    const sustainTime = 0.1;
+    // const sustainTime = 0.1;
 
     gain.gain.setValueAtTime(0, now); // Start silent
-    gain.gain.linearRampToValueAtTime(1, now + attack);
-    gain.gain.linearRampToValueAtTime(sustain, now + attack + decay);
-    gain.gain.setValueAtTime(sustain, now + attack + decay + sustainTime);
-    // gain.gain.linearRampToValueAtTime(
-    //   0,
-    //   now + attack + decay + sustainTime + release
-    // );
+    gain.gain.linearRampToValueAtTime(1, now + attack); // Attack
+    gain.gain.setTargetAtTime(sustain, now + attack, decay); // Decay
+    // gain.gain.setValueAtTime(sustain, now + attack + decay + sustainTime);
 
     const filter = audioCtxRef.current.createBiquadFilter();
     filter.type = 'lowpass';
@@ -106,19 +116,14 @@ function App() {
   }
 
   function stopNote(freq: number) {
+    if (!audioCtxRef.current) return;
     const index = oscillatorRef.current.findIndex((o) => o.id === freq);
-    // console.log(index);
-    if (index !== -1) {
-      console.log(audioCtxRef.current.currentTime);
-      console.log(oscillatorRef.current[index]);
 
+    if (index !== -1) {
       const now = audioCtxRef.current.currentTime;
-      const release = 0.9;
+      const release = 3.9;
 
       const { osc, gain } = oscillatorRef.current[index];
-
-      console.log(gain);
-      console.log(gain.gain);
 
       // apply release
       gain.gain.cancelScheduledValues(now);
@@ -130,7 +135,6 @@ function App() {
         osc.disconnect();
         gain.disconnect();
       }, release * 1000);
-
       oscillatorRef.current.splice(index, 1);
     }
   }
@@ -167,6 +171,31 @@ function App() {
 
     setSelQFilter(newQFilter);
     selQFilterRef.current = newQFilter;
+  }
+
+  function handleADSR(value: string, envelope: string) {
+    console.log(value + envelope);
+
+    const newADSR = Number(value);
+
+    switch (envelope) {
+      case 'attack':
+        setSelAttack(newADSR);
+        selAttackRef.current = newADSR;
+        break;
+      case 'decay':
+        setSelDecay(newADSR);
+        selDecayRef.current = newADSR;
+        break;
+      case 'sustain':
+        setSelSustain(newADSR);
+        selSustainRef.current = newADSR;
+        break;
+      case 'release':
+        setSelRelease(newADSR);
+        selReleaseRef.current = newADSR;
+        break;
+    }
   }
 
   useEffect(() => {
@@ -320,15 +349,16 @@ function App() {
           <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
             <p>ADSR</p>
             <div className='flex flex-col justify-center items-center gap-2 w-48'>
-              <label htmlFor='attack'>Attack {selCutoff}</label>
+              <label htmlFor='attack'>Attack {selAttack} s</label>
               <input
                 type='range'
                 name='attack'
                 id='attack'
                 min='0'
-                max='20000'
-                value={selCutoff}
-                onChange={(e) => handleCutoff(e.target.value)}
+                max='10'
+                step={0.1}
+                value={selAttack}
+                onChange={(e) => handleADSR(e.target.value, 'attack')}
               />
             </div>
           </div>
