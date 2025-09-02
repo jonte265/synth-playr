@@ -48,8 +48,11 @@ function App() {
   const [selVolume, setSelVolume] = useState(0.3);
   const selVolumeRef = useRef(0.3);
 
-  const [selCutoff, setSelCutoff] = useState(0.3);
-  const selCutoffRef = useRef(0.3);
+  const [selCutoff, setSelCutoff] = useState(2000);
+  const selCutoffRef = useRef(2000);
+
+  const [selQFilter, setSelQFilter] = useState(10);
+  const selQFilterRef = useRef(10);
 
   function playNote(freq: number) {
     // Skapar ljudmotorn om det inte redan finns
@@ -71,6 +74,7 @@ function App() {
 
     const filter = audioCtxRef.current.createBiquadFilter();
     filter.type = 'lowpass';
+    filter.Q.value = selQFilterRef.current;
 
     console.log('filtering', selCutoffRef.current);
 
@@ -124,6 +128,15 @@ function App() {
 
     setSelCutoff(newCutoff);
     selCutoffRef.current = newCutoff;
+  }
+
+  function handleQFilter(filterQ: any) {
+    console.log(filterQ);
+
+    const newQFilter = Number(filterQ);
+
+    setSelQFilter(newQFilter);
+    selQFilterRef.current = newQFilter;
   }
 
   useEffect(() => {
@@ -244,7 +257,7 @@ function App() {
     <>
       <Header />
       <main className='flex flex-col gap-8 justify-center items-center p-4'>
-        <div className='flex flex-row gap-2'>
+        <div className='flex flex-wrap justify-center items-center flex-row gap-2'>
           <SmallBtn
             text='Sawtooth'
             icon={<PiWaveSawtoothDuotone />}
@@ -270,18 +283,32 @@ function App() {
             onClick={() => handleWaveformSelect('triangle')}
           />
         </div>
-        <div className='flex gap-4'>
-          <div className='flex flex-col justify-center items-center gap-2'>
-            <label htmlFor='volume'>Filter cutoff {selCutoff} Hz</label>
-            <input
-              type='range'
-              name='volume'
-              id='volume'
-              min='0'
-              max='21000'
-              value={selCutoff}
-              onChange={(e) => handleCutoff(e.target.value)}
-            />
+        <div className='flex gap-32'>
+          <div className='flex flex-col gap-2'>
+            <div className='flex flex-col justify-center items-center gap-2 w-48'>
+              <label htmlFor='filter'>Filter cutoff {selCutoff} Hz</label>
+              <input
+                type='range'
+                name='filter'
+                id='filter'
+                min='0'
+                max='20000'
+                value={selCutoff}
+                onChange={(e) => handleCutoff(e.target.value)}
+              />
+            </div>
+            <div className='flex flex-col justify-center items-center gap-2 w-48'>
+              <label htmlFor='filterQ'>Filter Q: {selQFilter}</label>
+              <input
+                type='range'
+                name='filterQ'
+                id='filterQ'
+                min='0'
+                max='20'
+                value={selQFilter}
+                onChange={(e) => handleQFilter(e.target.value)}
+              />
+            </div>
           </div>
           <div className='flex flex-col justify-center items-center gap-2'>
             <label htmlFor='volume'>Volume {(selVolume * 10).toFixed(1)}</label>
