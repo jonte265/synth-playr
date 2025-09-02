@@ -45,8 +45,8 @@ function App() {
   const [selWaveform, setSelWaveform] = useState<OscillatorType>('sine');
   const selWaveformRef = useRef<OscillatorType>('sine');
 
-  const [selVolume, setSelVolume] = useState(0.3);
-  const selVolumeRef = useRef(0.3);
+  const [selVolume, setSelVolume] = useState(0.2);
+  const selVolumeRef = useRef(0.2);
 
   const [selCutoff, setSelCutoff] = useState(2000);
   const selCutoffRef = useRef(2000);
@@ -67,16 +67,26 @@ function App() {
 
     const gain = audioCtxRef.current.createGain();
     gain.gain.value = selVolumeRef.current;
-    // gain.gain.exponentialRampToValueAtTime(
-    //   0.000001,
-    //   audioCtxRef.current.currentTime + 1
+
+    // ADSR in seconds
+    const now = audioCtxRef.current.currentTime;
+    const attack = 0.3;
+    const decay = 0.8;
+    const sustain = 0.1; // level not time seconds
+    const sustainTime = 0.1;
+
+    gain.gain.setValueAtTime(0, now); // Start silent
+    gain.gain.linearRampToValueAtTime(1, now + attack);
+    gain.gain.linearRampToValueAtTime(sustain, now + attack + decay);
+    gain.gain.setValueAtTime(sustain, now + attack + decay + sustainTime);
+    // gain.gain.linearRampToValueAtTime(
+    //   0,
+    //   now + attack + decay + sustainTime + release
     // );
 
     const filter = audioCtxRef.current.createBiquadFilter();
     filter.type = 'lowpass';
     filter.Q.value = selQFilterRef.current;
-
-    console.log('filtering', selCutoffRef.current);
 
     filter.frequency.value = selCutoffRef.current;
 
@@ -89,6 +99,7 @@ function App() {
     oscillatorRef.current.push({
       id: freq,
       osc: oscillator,
+      gain: gain,
     });
 
     // console.log(oscillatorRef.current);
@@ -97,10 +108,29 @@ function App() {
   function stopNote(freq: number) {
     const index = oscillatorRef.current.findIndex((o) => o.id === freq);
     // console.log(index);
-
     if (index !== -1) {
-      oscillatorRef.current[index].osc.stop();
-      oscillatorRef.current[index].osc.disconnect();
+      console.log(audioCtxRef.current.currentTime);
+      console.log(oscillatorRef.current[index]);
+
+      const now = audioCtxRef.current.currentTime;
+      const release = 0.9;
+
+      const { osc, gain } = oscillatorRef.current[index];
+
+      console.log(gain);
+      console.log(gain.gain);
+
+      // apply release
+      gain.gain.cancelScheduledValues(now);
+      gain.gain.setValueAtTime(gain.gain.value, now);
+      gain.gain.linearRampToValueAtTime(0, now + release);
+
+      osc.stop(now + release);
+      setTimeout(() => {
+        osc.disconnect();
+        gain.disconnect();
+      }, release * 1000);
+
       oscillatorRef.current.splice(index, 1);
     }
   }
@@ -257,8 +287,8 @@ function App() {
     <>
       <Header />
       <main className='flex flex-col gap-8 justify-center items-center p-4'>
-        <div className='flex flex-wrap justify-center items-center flex-col gap-2'>
-          <p>Waveforms:</p>
+        <div className='flex flex-wrap justify-center items-center flex-col gap-2 outline outline-gray-700 rounded-4xl p-8'>
+          <p>Waveform:</p>
           <div className='flex flex-wrap justify-center items-center gap-1'>
             <SmallBtn
               text='Sawtooth'
@@ -286,10 +316,26 @@ function App() {
             />
           </div>
         </div>
-        <div className='flex flex-wrap justify-center items-center gap-4'>
-          <div className='flex flex-col gap-2'>
+        <div className='flex flex-wrap justify-center items-center gap-4 '>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
+            <p>ADSR</p>
             <div className='flex flex-col justify-center items-center gap-2 w-48'>
-              <label htmlFor='filter'>Filter cutoff {selCutoff} Hz</label>
+              <label htmlFor='attack'>Attack {selCutoff}</label>
+              <input
+                type='range'
+                name='attack'
+                id='attack'
+                min='0'
+                max='20000'
+                value={selCutoff}
+                onChange={(e) => handleCutoff(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
+            <p>Filter</p>
+            <div className='flex flex-col justify-center items-center gap-2 w-48'>
+              <label htmlFor='filter'>Frequency {selCutoff} Hz</label>
               <input
                 type='range'
                 name='filter'
@@ -301,7 +347,7 @@ function App() {
               />
             </div>
             <div className='flex flex-col justify-center items-center gap-2 w-48'>
-              <label htmlFor='filterQ'>Filter Q: {selQFilter}</label>
+              <label htmlFor='filterQ'>Q {selQFilter}</label>
               <input
                 type='range'
                 name='filterQ'
@@ -313,7 +359,7 @@ function App() {
               />
             </div>
           </div>
-          <div className='flex flex-col justify-center items-center gap-2'>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-48'>
             <label htmlFor='volume'>Volume {(selVolume * 10).toFixed(1)}</label>
             <input
               type='range'
