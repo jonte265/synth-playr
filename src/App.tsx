@@ -85,14 +85,12 @@ function App() {
     // ADSR in seconds
     const now = audioCtxRef.current.currentTime;
     const attack = selAttackRef.current;
-    const decay = 0.5;
-    const sustain = 0.1; // level not time seconds
-    // const sustainTime = 0.1;
+    const decay = selDecayRef.current;
+    const sustain = selSustainRef.current;
 
     gain.gain.setValueAtTime(0, now); // Start silent
     gain.gain.linearRampToValueAtTime(1, now + attack); // Attack
     gain.gain.setTargetAtTime(sustain, now + attack, decay); // Decay
-    // gain.gain.setValueAtTime(sustain, now + attack + decay + sustainTime);
 
     const filter = audioCtxRef.current.createBiquadFilter();
     filter.type = 'lowpass';
@@ -121,7 +119,7 @@ function App() {
 
     if (index !== -1) {
       const now = audioCtxRef.current.currentTime;
-      const release = 3.9;
+      const release = selReleaseRef.current;
 
       const { osc, gain } = oscillatorRef.current[index];
 
@@ -359,6 +357,45 @@ function App() {
                 step={0.1}
                 value={selAttack}
                 onChange={(e) => handleADSR(e.target.value, 'attack')}
+              />
+            </div>
+            <div className='flex flex-col justify-center items-center gap-2 w-48'>
+              <label htmlFor='decay'>Decay {selDecay} s</label>
+              <input
+                type='range'
+                name='decay'
+                id='decay'
+                min='0'
+                max='10'
+                step={0.1}
+                value={selDecay}
+                onChange={(e) => handleADSR(e.target.value, 'decay')}
+              />
+            </div>
+            <div className='flex flex-col justify-center items-center gap-2 w-48'>
+              <label htmlFor='sustain'>Sustain {selSustain} s</label>
+              <input
+                type='range'
+                name='sustain'
+                id='sustain'
+                min='0'
+                max='10'
+                step={0.1}
+                value={selSustain}
+                onChange={(e) => handleADSR(e.target.value, 'sustain')}
+              />
+            </div>
+            <div className='flex flex-col justify-center items-center gap-2 w-48'>
+              <label htmlFor='release'>Release {selRelease} s</label>
+              <input
+                type='range'
+                name='release'
+                id='release'
+                min='0'
+                max='10'
+                step={0.1}
+                value={selRelease}
+                onChange={(e) => handleADSR(e.target.value, 'release')}
               />
             </div>
           </div>
