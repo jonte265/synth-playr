@@ -2,6 +2,12 @@
 
 Ett webb-baserat synthesizer-projekt byggt med React och Web Audio API 🎶✨
 
+<img width="1516" height="992" alt="synthplayr-screen" src="https://github.com/user-attachments/assets/b968b7e6-1f5e-4c71-985d-4f0386f0cbf8" />
+
+## 🌐 Live Demo
+
+https://synthplayr.vercel.app/
+
 ## Funktioner 🎛️
 
 - Spela toner från två oktaver via tangentbordet.
