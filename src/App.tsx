@@ -264,9 +264,7 @@ function App() {
 
   useEffect(() => {
     function handleKeydown(event: any) {
-      if (event.repeat) {
-        return;
-      }
+      if (event.repeat) return;
 
       switch (event.key.toLowerCase()) {
         // --- Octave 3 ---
@@ -320,62 +318,63 @@ function App() {
           break;
 
         // --- Octave 4 ---
-        case 'a':
+        case 'q':
           playNote(261.63); // C4
           setActiveNote((prev) => [...prev, 261.63]);
           break;
-        case 'w':
+        case '2':
           playNote(277.18); // C#4
           setActiveNote((prev) => [...prev, 277.18]);
           break;
-        case 'q':
+        case 'w':
           playNote(293.66); // D4
           setActiveNote((prev) => [...prev, 293.66]);
           break;
-        case 'e':
+        case '3':
           playNote(311.13); // D#4
           setActiveNote((prev) => [...prev, 311.13]);
           break;
-        case 'r':
+        case 'e':
           playNote(329.63); // E4
           setActiveNote((prev) => [...prev, 329.63]);
           break;
-        case 't':
+        case 'r':
           playNote(349.23); // F4
           setActiveNote((prev) => [...prev, 349.23]);
           break;
-        case 'y':
+        case '5':
           playNote(369.99); // F#4
           setActiveNote((prev) => [...prev, 369.99]);
           break;
-        case 'u':
+        case 't':
           playNote(392.0); // G4
           setActiveNote((prev) => [...prev, 392.0]);
           break;
-        case 'i':
+        case '6':
           playNote(415.3); // G#4
           setActiveNote((prev) => [...prev, 415.3]);
           break;
-        case 'o':
+        case 'y':
           playNote(440.0); // A4
           setActiveNote((prev) => [...prev, 440.0]);
           break;
-        case 'p':
+        case '7':
           playNote(466.16); // A#4
           setActiveNote((prev) => [...prev, 466.16]);
           break;
-        case 'l':
+        case 'u':
           playNote(493.88); // B4
           setActiveNote((prev) => [...prev, 493.88]);
           break;
 
         // --- Octave 5 ---
-        case 'k':
+        case 'i':
           playNote(523.25); // C5
           setActiveNote((prev) => [...prev, 523.25]);
           break;
       }
     }
+
     function handleKeyup(event: any) {
       console.log(`Key up: ${event.key}`);
 
@@ -431,57 +430,57 @@ function App() {
           break;
 
         // --- Octave 4 ---
-        case 'a':
+        case 'q':
           stopNote(261.63);
           setActiveNote((prev) => prev.filter((note) => note !== 261.63));
           break;
-        case 'w':
+        case '2':
           stopNote(277.18);
           setActiveNote((prev) => prev.filter((note) => note !== 277.18));
           break;
-        case 'q':
+        case 'w':
           stopNote(293.66);
           setActiveNote((prev) => prev.filter((note) => note !== 293.66));
           break;
-        case 'e':
+        case '3':
           stopNote(311.13);
           setActiveNote((prev) => prev.filter((note) => note !== 311.13));
           break;
-        case 'r':
+        case 'e':
           stopNote(329.63);
           setActiveNote((prev) => prev.filter((note) => note !== 329.63));
           break;
-        case 't':
+        case 'r':
           stopNote(349.23);
           setActiveNote((prev) => prev.filter((note) => note !== 349.23));
           break;
-        case 'y':
+        case '5':
           stopNote(369.99);
           setActiveNote((prev) => prev.filter((note) => note !== 369.99));
           break;
-        case 'u':
+        case 't':
           stopNote(392.0);
           setActiveNote((prev) => prev.filter((note) => note !== 392.0));
           break;
-        case 'i':
+        case '6':
           stopNote(415.3);
           setActiveNote((prev) => prev.filter((note) => note !== 415.3));
           break;
-        case 'o':
+        case 'y':
           stopNote(440.0);
           setActiveNote((prev) => prev.filter((note) => note !== 440.0));
           break;
-        case 'p':
+        case '7':
           stopNote(466.16);
           setActiveNote((prev) => prev.filter((note) => note !== 466.16));
           break;
-        case 'l':
+        case 'u':
           stopNote(493.88);
           setActiveNote((prev) => prev.filter((note) => note !== 493.88));
           break;
 
         // --- Octave 5 ---
-        case 'k':
+        case 'i':
           stopNote(523.25);
           setActiveNote((prev) => prev.filter((note) => note !== 523.25));
           break;
@@ -690,7 +689,11 @@ function App() {
             </button>
           ))}
         </div>
-        <p>How to play:</p>
+        <p className='font-bold'>How to play:</p>
+        <p>
+          Use keys Z–M and S, D, G, H, J for sharps for lower octave, Q–U and
+          numbers 2,3,5,6,7 for middle octave.
+        </p>
       </main>
     </>
   );
