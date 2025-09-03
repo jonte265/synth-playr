@@ -42,7 +42,7 @@ function App() {
     { note: 'A#', freq: 466.16, left: 582 },
   ];
 
-  const [activeNote, setActiveNote] = useState(0);
+  const [activeNote, setActiveNote] = useState<number[]>([]);
 
   const audioCtxRef = useRef<AudioContext>(null);
   // const oscillatorRef = useRef<OscillatorNode>(null);
@@ -83,7 +83,6 @@ function App() {
   const selDelayFeedbackRef = useRef(0.4);
 
   function playNote(freq: number) {
-    setActiveNote(freq);
     stopNote(freq);
 
     // Skapar ljudmotorn om det inte redan finns
@@ -273,192 +272,218 @@ function App() {
         // --- Octave 3 ---
         case 'z':
           playNote(130.81); // C3
+          setActiveNote((prev) => [...prev, 130.81]);
           break;
         case 's':
           playNote(138.59); // C#3
+          setActiveNote((prev) => [...prev, 138.59]);
           break;
         case 'x':
           playNote(146.83); // D3
+          setActiveNote((prev) => [...prev, 146.83]);
           break;
         case 'd':
           playNote(155.56); // D#3
+          setActiveNote((prev) => [...prev, 155.56]);
           break;
         case 'c':
           playNote(164.81); // E3
+          setActiveNote((prev) => [...prev, 164.81]);
           break;
         case 'v':
           playNote(174.61); // F3
+          setActiveNote((prev) => [...prev, 174.61]);
           break;
         case 'g':
           playNote(185.0); // F#3
+          setActiveNote((prev) => [...prev, 185.0]);
           break;
         case 'b':
           playNote(196.0); // G3
+          setActiveNote((prev) => [...prev, 196.0]);
           break;
         case 'h':
           playNote(207.65); // G#3
+          setActiveNote((prev) => [...prev, 207.65]);
           break;
         case 'n':
           playNote(220.0); // A3
+          setActiveNote((prev) => [...prev, 220.0]);
           break;
         case 'j':
           playNote(233.08); // A#3
+          setActiveNote((prev) => [...prev, 233.08]);
           break;
         case 'm':
           playNote(246.94); // B3
+          setActiveNote((prev) => [...prev, 246.94]);
           break;
 
         // --- Octave 4 ---
         case 'a':
           playNote(261.63); // C4
+          setActiveNote((prev) => [...prev, 261.63]);
           break;
         case 'w':
           playNote(277.18); // C#4
+          setActiveNote((prev) => [...prev, 277.18]);
           break;
         case 'q':
           playNote(293.66); // D4
+          setActiveNote((prev) => [...prev, 293.66]);
           break;
         case 'e':
           playNote(311.13); // D#4
+          setActiveNote((prev) => [...prev, 311.13]);
           break;
         case 'r':
           playNote(329.63); // E4
+          setActiveNote((prev) => [...prev, 329.63]);
           break;
         case 't':
           playNote(349.23); // F4
+          setActiveNote((prev) => [...prev, 349.23]);
           break;
         case 'y':
           playNote(369.99); // F#4
+          setActiveNote((prev) => [...prev, 369.99]);
           break;
         case 'u':
           playNote(392.0); // G4
+          setActiveNote((prev) => [...prev, 392.0]);
           break;
         case 'i':
           playNote(415.3); // G#4
+          setActiveNote((prev) => [...prev, 415.3]);
           break;
         case 'o':
           playNote(440.0); // A4
+          setActiveNote((prev) => [...prev, 440.0]);
           break;
         case 'p':
           playNote(466.16); // A#4
+          setActiveNote((prev) => [...prev, 466.16]);
           break;
         case 'l':
           playNote(493.88); // B4
+          setActiveNote((prev) => [...prev, 493.88]);
           break;
 
         // --- Octave 5 ---
         case 'k':
           playNote(523.25); // C5
+          setActiveNote((prev) => [...prev, 523.25]);
           break;
       }
     }
     function handleKeyup(event: any) {
       console.log(`Key up: ${event.key}`);
+
       switch (event.key.toLowerCase()) {
         // --- Octave 3 ---
         case 'z':
           stopNote(130.81);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 130.81));
           break;
         case 's':
           stopNote(138.59);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 138.59));
           break;
         case 'x':
           stopNote(146.83);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 146.83));
           break;
         case 'd':
           stopNote(155.56);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 155.56));
           break;
         case 'c':
           stopNote(164.81);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 164.81));
           break;
         case 'v':
           stopNote(174.61);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 174.61));
           break;
         case 'g':
           stopNote(185.0);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 185.0));
           break;
         case 'b':
           stopNote(196.0);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 196.0));
           break;
         case 'h':
           stopNote(207.65);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 207.65));
           break;
         case 'n':
           stopNote(220.0);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 220.0));
           break;
         case 'j':
           stopNote(233.08);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 233.08));
           break;
         case 'm':
           stopNote(246.94);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 246.94));
           break;
 
         // --- Octave 4 ---
         case 'a':
           stopNote(261.63);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 261.63));
           break;
         case 'w':
           stopNote(277.18);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 277.18));
           break;
         case 'q':
           stopNote(293.66);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 293.66));
           break;
         case 'e':
           stopNote(311.13);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 311.13));
           break;
         case 'r':
           stopNote(329.63);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 329.63));
           break;
         case 't':
           stopNote(349.23);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 349.23));
           break;
         case 'y':
           stopNote(369.99);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 369.99));
           break;
         case 'u':
           stopNote(392.0);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 392.0));
           break;
         case 'i':
           stopNote(415.3);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 415.3));
           break;
         case 'o':
           stopNote(440.0);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 440.0));
           break;
         case 'p':
           stopNote(466.16);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 466.16));
           break;
         case 'l':
           stopNote(493.88);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 493.88));
           break;
 
         // --- Octave 5 ---
         case 'k':
           stopNote(523.25);
-          setActiveNote(0);
+          setActiveNote((prev) => prev.filter((note) => note !== 523.25));
           break;
       }
     }
@@ -643,7 +668,7 @@ function App() {
     bg-gray-300 hover:bg-gray-400 active:text-gray-300 active:bg-gray-500 
     rounded-xl px-4 py-20 border border-gray-400 relative z-0 
     text-gray-500 font-bold 
-    ${activeNote === key.freq ? 'bg-green-500' : 'bg-gray-300'}`}
+    ${activeNote.includes(key.freq) ? 'bg-green-500' : 'bg-gray-300'}`}
             >
               {key.note}
             </button>
@@ -657,7 +682,7 @@ function App() {
               onTouchStart={() => playNote(key.freq)}
               onTouchEnd={() => stopNote(key.freq)}
               className={`hover:bg-gray-700 active:bg-gray-600 rounded-md w-8 h-28 absolute top-0 z-10 text-gray-300 font-bold
-    ${activeNote === key.freq ? 'bg-green-500' : 'bg-gray-800'}
+    ${activeNote.includes(key.freq) ? 'bg-green-500' : 'bg-gray-800'}
   `}
               style={{ marginLeft: '-20px', left: `${key.left}px` }}
             >
