@@ -1,69 +1,39 @@
-# React + TypeScript + Vite
+# React Synthesizer 🎹🎶
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ett webb-baserat synthesizer-projekt byggt med React och Web Audio API 🎶✨
 
-Currently, two official plugins are available:
+## Funktioner 🎛️
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Spela toner från två oktaver via tangentbordet.
+- Välj mellan fyra olika vågformer: Sawtooth, Sine, Square och Triangle.
+- Kontrollera volymen.
+- Justera ADSR-envelope för att forma ljudets attack, decay, sustain och release.
+- Ställ in lågpassfilter med variabel frekvens och Q-värde.
+- Lägg till delay-effekt med justerbar delay-tid och feedback.
+- Visuell respons på aktiva toner.
 
-## Expanding the ESLint configuration
+## Användning 🎧
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Tryck på tangenterna z, s, x, d osv. på tangentbordet för att spela toner eller klicka på det virtuella keyboardet 🎹
+- Justera reglagen för volym, ADSR (Attack Decay Sustain Release), filter och delay för att experimentera med ljudet.
+- Experimentera med delay, ljudvågor och volym för att skapa olika effekter och dynamik 🔊
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech stack 💻
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- React
+- Web Audio API
+- TypeScript
+- Tailwind CSS (för styling)
+- React Icons (för ikoner)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Installation 🚀
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. Klona detta repository
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. Installera beroenden:
+   npm install
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3. Starta utvecklingsservern:
+   npm run dev
+
+   Öppna din webbläsare och besök http://localhost:5173/
