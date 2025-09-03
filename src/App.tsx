@@ -190,14 +190,14 @@ function App() {
   }
 
   function handleWaveformSelect(sel: any) {
-    console.log(sel);
+    // console.log(sel);
 
     setSelWaveform(sel);
     selWaveformRef.current = sel;
   }
 
   function handleVolume(vol: string) {
-    console.log(vol);
+    // console.log(vol);
 
     const newVol = Number(vol);
 
@@ -210,8 +210,6 @@ function App() {
   }
 
   function handleCutoff(filterCutoff: string) {
-    console.log(filterCutoff);
-
     const newCutoff = Number(filterCutoff);
 
     setSelCutoff(newCutoff);
@@ -219,7 +217,7 @@ function App() {
   }
 
   function handleQFilter(filterQ: string) {
-    console.log(filterQ);
+    // console.log(filterQ);
 
     const newQFilter = Number(filterQ);
 
@@ -228,7 +226,7 @@ function App() {
   }
 
   function handleADSR(value: string, envelope: string) {
-    console.log(value + envelope);
+    // console.log(value + envelope);
 
     const newADSR = Number(value);
 
@@ -253,7 +251,7 @@ function App() {
   }
 
   function handleDelayTime(time: string) {
-    console.log(time);
+    // console.log(time);
 
     const newTime = Number(time);
 
@@ -261,7 +259,7 @@ function App() {
     selDelayTimeRef.current = newTime;
   }
   function handleDelayFeedback(fb: string) {
-    console.log(fb);
+    // console.log(fb);
 
     const newFb = Number(fb);
 
@@ -383,7 +381,7 @@ function App() {
     }
 
     function handleKeyup(event: any) {
-      console.log(`Key up: ${event.key}`);
+      // console.log(`Key up: ${event.key}`);
 
       switch (event.key.toLowerCase()) {
         // --- Octave 3 ---
