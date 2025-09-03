@@ -30,7 +30,7 @@ function App() {
 
   const blackKeys = [
     { note: 'C#', freq: 138.59, left: 48 },
-    { note: 'D#', freq: 155.56, left: 98 },
+    { note: 'D#', freq: 155.56, left: 95 },
     { note: 'F#', freq: 185.0, left: 181 },
     { note: 'G#', freq: 207.65, left: 227 },
     { note: 'A#', freq: 233.08, left: 271 },
@@ -41,6 +41,8 @@ function App() {
     { note: 'G#', freq: 415.3, left: 537 },
     { note: 'A#', freq: 466.16, left: 582 },
   ];
+
+  const [activeNote, setActiveNote] = useState(0);
 
   const audioCtxRef = useRef<AudioContext>(null);
   // const oscillatorRef = useRef<OscillatorNode>(null);
@@ -81,6 +83,7 @@ function App() {
   const selDelayFeedbackRef = useRef(0.4);
 
   function playNote(freq: number) {
+    setActiveNote(freq);
     stopNote(freq);
 
     // Skapar ljudmotorn om det inte redan finns
@@ -267,100 +270,195 @@ function App() {
       }
 
       switch (event.key.toLowerCase()) {
+        // --- Octave 3 ---
+        case 'z':
+          playNote(130.81); // C3
+          break;
+        case 's':
+          playNote(138.59); // C#3
+          break;
+        case 'x':
+          playNote(146.83); // D3
+          break;
+        case 'd':
+          playNote(155.56); // D#3
+          break;
+        case 'c':
+          playNote(164.81); // E3
+          break;
+        case 'v':
+          playNote(174.61); // F3
+          break;
+        case 'g':
+          playNote(185.0); // F#3
+          break;
+        case 'b':
+          playNote(196.0); // G3
+          break;
+        case 'h':
+          playNote(207.65); // G#3
+          break;
+        case 'n':
+          playNote(220.0); // A3
+          break;
+        case 'j':
+          playNote(233.08); // A#3
+          break;
+        case 'm':
+          playNote(246.94); // B3
+          break;
+
+        // --- Octave 4 ---
         case 'a':
           playNote(261.63); // C4
           break;
         case 'w':
           playNote(277.18); // C#4
           break;
-        case 's':
+        case 'q':
           playNote(293.66); // D4
           break;
         case 'e':
           playNote(311.13); // D#4
           break;
-        case 'd':
+        case 'r':
           playNote(329.63); // E4
           break;
-        case 'f':
+        case 't':
           playNote(349.23); // F4
           break;
-        case 't':
+        case 'y':
           playNote(369.99); // F#4
           break;
-        case 'g':
+        case 'u':
           playNote(392.0); // G4
           break;
-        case 'y':
+        case 'i':
           playNote(415.3); // G#4
           break;
-        case 'h':
+        case 'o':
           playNote(440.0); // A4
           break;
-        case 'u':
+        case 'p':
           playNote(466.16); // A#4
           break;
-        case 'j':
+        case 'l':
           playNote(493.88); // B4
           break;
+
+        // --- Octave 5 ---
         case 'k':
           playNote(523.25); // C5
-          break;
-        case 'o':
-          playNote(554.37); // C#5
-          break;
-        case 'l':
-          playNote(587.33); // D5
           break;
       }
     }
     function handleKeyup(event: any) {
       console.log(`Key up: ${event.key}`);
       switch (event.key.toLowerCase()) {
-        case 'a':
-          stopNote(261.63); // C4
-          break;
-        case 'w':
-          stopNote(277.18); // C#4
+        // --- Octave 3 ---
+        case 'z':
+          stopNote(130.81);
+          setActiveNote(0);
           break;
         case 's':
-          stopNote(293.66); // D4
+          stopNote(138.59);
+          setActiveNote(0);
           break;
-        case 'e':
-          stopNote(311.13); // D#4
+        case 'x':
+          stopNote(146.83);
+          setActiveNote(0);
           break;
         case 'd':
-          stopNote(329.63); // E4
+          stopNote(155.56);
+          setActiveNote(0);
           break;
-        case 'f':
-          stopNote(349.23); // F4
+        case 'c':
+          stopNote(164.81);
+          setActiveNote(0);
           break;
-        case 't':
-          stopNote(369.99); // F#4
+        case 'v':
+          stopNote(174.61);
+          setActiveNote(0);
           break;
         case 'g':
-          stopNote(392.0); // G4
+          stopNote(185.0);
+          setActiveNote(0);
           break;
-        case 'y':
-          stopNote(415.3); // G#4
+        case 'b':
+          stopNote(196.0);
+          setActiveNote(0);
           break;
         case 'h':
-          stopNote(440.0); // A4
+          stopNote(207.65);
+          setActiveNote(0);
           break;
-        case 'u':
-          stopNote(466.16); // A#4
+        case 'n':
+          stopNote(220.0);
+          setActiveNote(0);
           break;
         case 'j':
-          stopNote(493.88); // B4
+          stopNote(233.08);
+          setActiveNote(0);
           break;
-        case 'k':
-          stopNote(523.25); // C5
+        case 'm':
+          stopNote(246.94);
+          setActiveNote(0);
+          break;
+
+        // --- Octave 4 ---
+        case 'a':
+          stopNote(261.63);
+          setActiveNote(0);
+          break;
+        case 'w':
+          stopNote(277.18);
+          setActiveNote(0);
+          break;
+        case 'q':
+          stopNote(293.66);
+          setActiveNote(0);
+          break;
+        case 'e':
+          stopNote(311.13);
+          setActiveNote(0);
+          break;
+        case 'r':
+          stopNote(329.63);
+          setActiveNote(0);
+          break;
+        case 't':
+          stopNote(349.23);
+          setActiveNote(0);
+          break;
+        case 'y':
+          stopNote(369.99);
+          setActiveNote(0);
+          break;
+        case 'u':
+          stopNote(392.0);
+          setActiveNote(0);
+          break;
+        case 'i':
+          stopNote(415.3);
+          setActiveNote(0);
           break;
         case 'o':
-          stopNote(554.37); // C#5
+          stopNote(440.0);
+          setActiveNote(0);
+          break;
+        case 'p':
+          stopNote(466.16);
+          setActiveNote(0);
           break;
         case 'l':
-          stopNote(587.33); // D5
+          stopNote(493.88);
+          setActiveNote(0);
+          break;
+
+        // --- Octave 5 ---
+        case 'k':
+          stopNote(523.25);
+          setActiveNote(0);
           break;
       }
     }
@@ -541,7 +639,11 @@ function App() {
               onMouseUp={() => stopNote(key.freq)}
               onTouchStart={() => playNote(key.freq)}
               onTouchEnd={() => stopNote(key.freq)}
-              className='flex justify-center items-end pb-4 min-h-45 bg-gray-300 hover:bg-gray-400  active:text-gray-300  active:bg-gray-500 rounded-xl px-4 py-20 border border-gray-400 relative z-0 text-gray-500 font-bold'
+              className={`flex justify-center items-end pb-4 min-h-45 
+    bg-gray-300 hover:bg-gray-400 active:text-gray-300 active:bg-gray-500 
+    rounded-xl px-4 py-20 border border-gray-400 relative z-0 
+    text-gray-500 font-bold 
+    ${activeNote === key.freq ? 'bg-green-500' : 'bg-gray-300'}`}
             >
               {key.note}
             </button>
@@ -554,7 +656,9 @@ function App() {
               onMouseUp={() => stopNote(key.freq)}
               onTouchStart={() => playNote(key.freq)}
               onTouchEnd={() => stopNote(key.freq)}
-              className='bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-md w-8 h-28 absolute top-0 z-10 text-gray-300 font-bold'
+              className={`hover:bg-gray-700 active:bg-gray-600 rounded-md w-8 h-28 absolute top-0 z-10 text-gray-300 font-bold
+    ${activeNote === key.freq ? 'bg-green-500' : 'bg-gray-800'}
+  `}
               style={{ marginLeft: '-20px', left: `${key.left}px` }}
             >
               {key.note}
