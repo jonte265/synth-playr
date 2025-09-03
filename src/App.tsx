@@ -540,7 +540,7 @@ function App() {
           </div>
         </div>
         <div className='flex flex-wrap justify-center items-center gap-4 '>
-          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-60'>
             <p className='flex justify-center items-center gap-1'>
               ADSR
               <LuAudioWaveform />
@@ -598,7 +598,7 @@ function App() {
               />
             </div>
           </div>
-          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-60'>
             <p className='flex justify-center items-center gap-1'>
               Filter
               <LuSpline className='rotate-90' />
@@ -628,7 +628,7 @@ function App() {
               />
             </div>
           </div>
-          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-60'>
             <p className='flex justify-center items-center gap-1'>
               Delay
               <LuRepeat />
@@ -660,7 +660,7 @@ function App() {
               />
             </div>
           </div>
-          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-48'>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-60'>
             <label
               className='flex justify-center items-center gap-1'
               htmlFor='volume'
@@ -717,8 +717,12 @@ function App() {
         <div className='flex flex-col text-center mt-2'>
           <p className='font-bold'>How to play:</p>
           <p>
-            Use keys Z–M and S, D, G, H, J for sharps for lower octave, Q–U and
-            numbers 2,3,5,6,7 for middle octave.
+            Use computer keyboard keys Z–M and S, D, G, H, J for sharps for
+            lower octave, Q–U and numbers 2,3,5,6,7 for middle octave.
+          </p>
+          <p>
+            <em>Tip for mobile:</em> Rotate your phone to landscape mode for the
+            best experience.
           </p>
         </div>
       </main>
