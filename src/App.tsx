@@ -6,6 +6,13 @@ import {
   PiWaveSineDuotone,
   PiWaveTriangleDuotone,
 } from 'react-icons/pi';
+import {
+  LuVolume2,
+  LuRepeat,
+  LuAudioWaveform,
+  LuSpline,
+  LuAudioLines,
+} from 'react-icons/lu';
 import SmallBtn from './components/SmallBtn';
 
 function App() {
@@ -501,7 +508,10 @@ function App() {
       <Header />
       <main className='flex flex-col gap-8 justify-center items-center p-4'>
         <div className='flex flex-wrap justify-center items-center flex-col gap-2 outline outline-gray-700 rounded-4xl p-8'>
-          <p>Waveform:</p>
+          <p className='flex justify-center items-center gap-1'>
+            Waveform
+            <LuAudioLines />
+          </p>
           <div className='flex flex-wrap justify-center items-center gap-1'>
             <SmallBtn
               text='Sawtooth'
@@ -531,7 +541,10 @@ function App() {
         </div>
         <div className='flex flex-wrap justify-center items-center gap-4 '>
           <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
-            <p>ADSR</p>
+            <p className='flex justify-center items-center gap-1'>
+              ADSR
+              <LuAudioWaveform />
+            </p>
             <div className='flex flex-col justify-center items-center gap-2 w-48'>
               <label htmlFor='attack'>Attack {selAttack} s</label>
               <input
@@ -586,7 +599,10 @@ function App() {
             </div>
           </div>
           <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
-            <p>Filter</p>
+            <p className='flex justify-center items-center gap-1'>
+              Filter
+              <LuSpline className='rotate-90' />
+            </p>
             <div className='flex flex-col justify-center items-center gap-2 w-48'>
               <label htmlFor='filter'>Frequency {selCutoff} Hz</label>
               <input
@@ -613,7 +629,10 @@ function App() {
             </div>
           </div>
           <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8'>
-            <p>Delay</p>
+            <p className='flex justify-center items-center gap-1'>
+              Delay
+              <LuRepeat />
+            </p>
             <div className='flex flex-col justify-center items-center gap-2 w-48'>
               <label htmlFor='delayTime'>Delay Time {selDelayTime}s</label>
               <input
@@ -642,7 +661,13 @@ function App() {
             </div>
           </div>
           <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-48'>
-            <label htmlFor='volume'>Volume {(selVolume * 10).toFixed(1)}</label>
+            <label
+              className='flex justify-center items-center gap-1'
+              htmlFor='volume'
+            >
+              Volume {(selVolume * 10).toFixed(1)}
+              <LuVolume2 />
+            </label>
             <input
               type='range'
               name='volume'
@@ -689,11 +714,13 @@ function App() {
             </button>
           ))}
         </div>
-        <p className='font-bold'>How to play:</p>
-        <p>
-          Use keys Z–M and S, D, G, H, J for sharps for lower octave, Q–U and
-          numbers 2,3,5,6,7 for middle octave.
-        </p>
+        <div className='flex flex-col text-center mt-2'>
+          <p className='font-bold'>How to play:</p>
+          <p>
+            Use keys Z–M and S, D, G, H, J for sharps for lower octave, Q–U and
+            numbers 2,3,5,6,7 for middle octave.
+          </p>
+        </div>
       </main>
     </>
   );
