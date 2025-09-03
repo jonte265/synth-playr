@@ -10,6 +10,14 @@ import SmallBtn from './components/SmallBtn';
 
 function App() {
   const whiteKeys = [
+    { note: 'C', freq: 130.81 },
+    { note: 'D', freq: 146.83 },
+    { note: 'E', freq: 164.81 },
+    { note: 'F', freq: 174.61 },
+    { note: 'G', freq: 196.0 },
+    { note: 'A', freq: 220.0 },
+    { note: 'B', freq: 246.94 },
+
     { note: 'C', freq: 261.63 },
     { note: 'D', freq: 293.66 },
     { note: 'E', freq: 329.63 },
@@ -21,11 +29,17 @@ function App() {
   ];
 
   const blackKeys = [
-    { note: 'C#', freq: 277.18, left: 48 },
-    { note: 'D#', freq: 311.13, left: 98 },
-    { note: 'F#', freq: 369.99, left: 195 },
-    { note: 'G#', freq: 415.3, left: 245 },
-    { note: 'A#', freq: 466.16, left: 295 },
+    { note: 'C#', freq: 138.59, left: 48 },
+    { note: 'D#', freq: 155.56, left: 98 },
+    { note: 'F#', freq: 185.0, left: 181 },
+    { note: 'G#', freq: 207.65, left: 227 },
+    { note: 'A#', freq: 233.08, left: 271 },
+
+    { note: 'C#', freq: 277.18, left: 360 },
+    { note: 'D#', freq: 311.13, left: 406 },
+    { note: 'F#', freq: 369.99, left: 492 },
+    { note: 'G#', freq: 415.3, left: 537 },
+    { note: 'A#', freq: 466.16, left: 582 },
   ];
 
   const audioCtxRef = useRef<AudioContext>(null);
@@ -42,8 +56,8 @@ function App() {
   const [selVolume, setSelVolume] = useState(0.1);
   const selVolumeRef = useRef(0.1);
 
-  const [selCutoff, setSelCutoff] = useState(2000);
-  const selCutoffRef = useRef(2000);
+  const [selCutoff, setSelCutoff] = useState(20000);
+  const selCutoffRef = useRef(20000);
 
   const [selQFilter, setSelQFilter] = useState(1);
   const selQFilterRef = useRef(1);
@@ -60,11 +74,11 @@ function App() {
   const [selRelease, setSelRelease] = useState(0.3);
   const selReleaseRef = useRef(0.3);
 
-  const [selDelayTime, setSelDelayTime] = useState(0.2);
-  const selDelayTimeRef = useRef(0.3);
+  const [selDelayTime, setSelDelayTime] = useState(0);
+  const selDelayTimeRef = useRef(0.0);
 
-  const [selDelayFeedback, setSelDelayFeedback] = useState(0.3);
-  const selDelayFeedbackRef = useRef(0.3);
+  const [selDelayFeedback, setSelDelayFeedback] = useState(0.4);
+  const selDelayFeedbackRef = useRef(0.4);
 
   function playNote(freq: number) {
     stopNote(freq);
@@ -541,7 +555,7 @@ function App() {
               onTouchStart={() => playNote(key.freq)}
               onTouchEnd={() => stopNote(key.freq)}
               className='bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-md w-8 h-28 absolute top-0 z-10 text-gray-300 font-bold'
-              style={{ marginLeft: '-16px', left: `${key.left}px` }}
+              style={{ marginLeft: '-20px', left: `${key.left}px` }}
             >
               {key.note}
             </button>
