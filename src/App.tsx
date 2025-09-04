@@ -686,7 +686,7 @@ function App() {
               onMouseUp={() => stopNote(key.freq)}
               onTouchStart={() => playNote(key.freq)}
               onTouchEnd={() => stopNote(key.freq)}
-              className={`flex justify-center items-end pb-4 min-h-45 
+              className={`select-none flex justify-center items-end pb-4 min-h-45 
     bg-gray-300 hover:bg-gray-400 active:text-gray-300 active:bg-gray-500 
     rounded-xl px-4 py-20 border border-gray-400 relative z-0 
     text-gray-500 font-bold 
@@ -703,7 +703,7 @@ function App() {
               onMouseUp={() => stopNote(key.freq)}
               onTouchStart={() => playNote(key.freq)}
               onTouchEnd={() => stopNote(key.freq)}
-              className={`hover:bg-gray-700 active:bg-gray-600 rounded-md w-8 h-28 absolute top-0 z-10 text-gray-300 font-bold
+              className={`select-none hover:bg-gray-700 active:bg-gray-600 rounded-md w-8 h-28 absolute top-0 z-10 text-gray-300 font-bold
     ${activeNote.includes(key.freq) ? 'bg-green-500' : 'bg-gray-800'}
   `}
               style={{ marginLeft: '-20px', left: `${key.left}px` }}
