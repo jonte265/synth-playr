@@ -505,7 +505,7 @@ function App() {
     <>
       <Header />
       <main className='flex flex-col gap-8 justify-center items-center p-4'>
-        <div className='flex flex-wrap justify-center items-center flex-col gap-2 outline outline-gray-700 rounded-4xl p-8'>
+        <div className='flex flex-wrap justify-center items-center flex-col gap-2 outline hover:outline-gray-800 duration-300 transition-all ease-in-out outline-gray-700 rounded-4xl p-8'>
           <p className='flex justify-center items-center gap-1'>
             Waveform
             <LuAudioLines />
@@ -538,7 +538,7 @@ function App() {
           </div>
         </div>
         <div className='flex flex-wrap justify-center items-center gap-4 '>
-          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-60'>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 duration-300 hover:outline-gray-800 transition-all ease-in-out  rounded-4xl p-8 w-60'>
             <p className='flex justify-center items-center gap-1'>
               ADSR
               <LuAudioWaveform />
@@ -596,7 +596,7 @@ function App() {
               />
             </div>
           </div>
-          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-60'>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 duration-300 hover:outline-gray-800 transition-all ease-in-out rounded-4xl p-8 w-60'>
             <p className='flex justify-center items-center gap-1'>
               Filter
               <LuSpline className='rotate-90' />
@@ -626,7 +626,7 @@ function App() {
               />
             </div>
           </div>
-          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-60'>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 duration-300 hover:outline-gray-800 transition-all ease-in-out rounded-4xl p-8 w-60'>
             <p className='flex justify-center items-center gap-1'>
               Delay
               <LuRepeat />
@@ -658,7 +658,7 @@ function App() {
               />
             </div>
           </div>
-          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 rounded-4xl p-8 w-60'>
+          <div className='flex flex-col justify-center items-center gap-2 outline outline-gray-700 duration-300 hover:outline-gray-800 transition-all ease-in-out rounded-4xl p-8 w-60'>
             <label
               className='flex justify-center items-center gap-1'
               htmlFor='volume'
